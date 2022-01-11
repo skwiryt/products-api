@@ -1,0 +1,14 @@
+"use strict";
+exports.__esModule = true;
+exports.router = void 0;
+var express = require("express");
+var ProductsController_1 = require("../controllers/ProductsController");
+var typedi_1 = require("typedi");
+var router = express.Router();
+exports.router = router;
+var productsController = typedi_1["default"].get(ProductsController_1["default"]);
+router.get('/list', function (res, req) { return productsController.getAll(res, req); });
+router.get('/details/:id', function (res, req) { return productsController.getOne(res, req); });
+router.post('/create', function (res, req) { return productsController.addOne(res, req); });
+router.put('/edit', function (res, req) { return productsController.edit(res, req); });
+router["delete"]('/delete/:id', function (res, req) { return productsController["delete"](res, req); });
