@@ -1,14 +1,18 @@
 "use strict";
-exports.__esModule = true;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.router = void 0;
-var express = require("express");
-var ProductsController_1 = require("../controllers/ProductsController");
-var typedi_1 = require("typedi");
-var router = express.Router();
+const express = require("express");
+const ProductsController_1 = __importDefault(require("../controllers/ProductsController"));
+const typedi_1 = __importDefault(require("typedi"));
+const router = express.Router();
 exports.router = router;
-var productsController = typedi_1["default"].get(ProductsController_1["default"]);
-router.get('/list', function (res, req) { return productsController.getAll(res, req); });
-router.get('/details/:id', function (res, req) { return productsController.getOne(res, req); });
-router.post('/create', function (res, req) { return productsController.addOne(res, req); });
-router.put('/edit', function (res, req) { return productsController.edit(res, req); });
-router["delete"]('/delete/:id', function (res, req) { return productsController["delete"](res, req); });
+const productsController = typedi_1.default.get(ProductsController_1.default);
+router.get('/list', (res, req) => productsController.getAll(res, req));
+router.get('/details/:id', (res, req) => productsController.getOne(res, req));
+router.post('/create', (res, req) => productsController.addOne(res, req));
+router.put('/edit', (res, req) => productsController.edit(res, req));
+router.delete('/delete/:id', (res, req) => productsController.delete(res, req));
+//# sourceMappingURL=products.routes.js.map

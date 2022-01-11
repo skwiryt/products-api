@@ -1,6 +1,5 @@
 import * as express from 'express'
-import Container, { Service } from 'typedi';
-import Product from '../models/product.model';
+import { Service } from 'typedi';
 import ProductsService from '../services/ProductsService';
 
 const validation = ({ Name, Price }: any): boolean => {
@@ -9,13 +8,9 @@ const validation = ({ Name, Price }: any): boolean => {
 @Service()
 class ProductsController {
   
-  // constructor(private readonly productsService: ProductsService) {}
-  constructor() {
-    this.productsService = Container.get(ProductsService);
-  }
-  private productsService: ProductsService; 
+  constructor(private productsService: ProductsService) {}
   
-  async getAll(req: express.Request, res: express.Response) {
+  async getAll(_req: express.Request, res: express.Response) {
     console.log('this', this);
     console.log('this.productsService', this.productsService);
     try {

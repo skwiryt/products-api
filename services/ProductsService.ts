@@ -1,4 +1,3 @@
-import * as express from 'express'
 import Product from '../models/product.model';
 import {IProduct } from '..//models/product.model';
 import { Service } from 'typedi';
@@ -10,22 +9,18 @@ class ProductsService {
     if (!products) return [];
     else return products.map((r: any) => r.toClient());
   }
-  async getOne(id: string): Promise<IProduct> {
-    const product = await Product.findById(id);
-    return product.toClient();
+  async getOne(id: string): Promise<IProduct | null> {
+    const product = await Product.findById(id);    
+    return product ? product.toClient() : product;
   }
-  async addOne(newProduct: IProduct) {   
+  async addOne(newProduct: IProduct): Promise<IProduct> {   
     const { Name, Price } =  newProduct;
     const UpdateDate = new Date();    
     const product = new Product({ Name, Price, UpdateDate });
-    const saved = await product.save();
-    const savedProduct = saved.toObject();
-    const Id = savedProduct._id;
-    delete savedProduct._id;
-    delete savedProduct.__v;
-    return {...savedProduct, Id};    
+    const productSaved = await product.save();
+    return productSaved.toClient();
   }
-  async edit(newProduct: any): Promise<IProduct> {   
+  async edit(newProduct: any): Promise<IProduct | null> {   
     let { Name, Price, Id } = newProduct;
     const product = await Product.findById(Id);
     if (!product) {
@@ -38,8 +33,8 @@ class ProductsService {
       return productSaved.toClient();
     }    
   }
-  async delete(id: string): Promise<IProduct> {   
-    const prod = Product.findById(id);
+  async delete(id: string): Promise<IProduct | null> {   
+    const prod = await Product.findById(id);
     if (prod) {
       await Product.deleteOne({_id: id});  
     }
